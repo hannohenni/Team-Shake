@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Team Shake">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a84ff">
+<title>Team Shake</title>
+<link rel="manifest" id="mf">
+<link rel="apple-touch-icon" id="ic">
+<style>
+:root{--bg:#eef0f5;--c:#fff;--t:#14161c;--m:#6b7080;--l:#dcdfe8;--a:#0a6cff;--f:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",sans-serif;
+box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b0c10;--c:#1a1c23;--t:#f2f3f7;--m:#9a9fb0;--l:#2b2e38;--a:#3d8bff}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--t);font:17px/1.35 var(--f);padding-bottom:110px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 6px;max-width:1100px;margin:auto}
+h1{font-size:30px;margin:0;letter-spacing:-.02em}
+h2{font-size:20px;margin:0}
+.pill{background:var(--c);border:1px solid var(--l);border-radius:99px;padding:8px 16px;font-weight:600;color:var(--a)}
+.tabs{display:flex;gap:4px;margin:8px 18px;padding:4px;background:var(--l);border-radius:12px;max-width:500px}
+.tabs button{flex:1;padding:8px;border-radius:9px;font-weight:600;color:var(--m)}
+.tabs .on{background:var(--c);color:var(--t)}
+main{display:grid;gap:18px;padding:8px 18px;max-width:1100px;margin:auto}
+section{min-width:0}
+.card{background:var(--c);border-radius:18px;padding:14px;margin-bottom:14px}
+.row{display:flex;align-items:center;gap:10px;justify-content:space-between}
+textarea{flex:1;resize:none;border:1px solid var(--l);border-radius:12px;padding:11px 12px;background:var(--bg);height:46px}
+.add{width:46px;height:46px;border-radius:12px;background:var(--a);color:#fff;font-size:28px;line-height:1}
+select{border:1px solid var(--l);background:var(--bg);border-radius:10px;padding:7px 8px}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:38px;height:38px;border-radius:50%;background:var(--bg);font-size:22px;font-weight:600}
+.step b{min-width:28px;text-align:center;font-size:22px}
+.hint{color:var(--m);font-size:14px}
+.pr{display:flex;align-items:center;gap:10px;padding:9px 2px;border-top:1px solid var(--l)}
+.pr:first-child{border-top:0}
+.pr.off .nm{opacity:.4;text-decoration:line-through}
+.nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ck{width:28px;height:28px;border-radius:50%;border:2px solid var(--a);color:#fff;font-weight:700}
+.pr:not(.off) .ck{background:var(--a)}
+.st button{color:var(--l);font-size:22px;padding:0 1px}
+.st .f{color:#f5a300}
+.x{color:var(--m);font-size:24px;width:30px}
+.empty{text-align:center;color:var(--m);padding:26px 10px}
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.tm{background:var(--c);border-radius:18px;overflow:hidden}
+.tm h3{margin:0;padding:12px 14px;background:var(--c2);color:#fff;display:flex;justify-content:space-between;align-items:baseline;gap:8px;cursor:text}
+.tm small{font-weight:500;opacity:.9;font-size:13px}
+.tm ul{list-style:none;margin:0;padding:6px 14px 10px}
+.tm li{padding:7px 0;border-top:1px solid var(--l)}
+.tm li:first-child{border:0}
+.an{animation:pop .5s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes pop{from{transform:scale(.7) rotate(-4deg);opacity:0}}
+@keyframes wob{25%{transform:rotate(-8deg) translateX(-4px)}75%{transform:rotate(8deg) translateX(4px)}}
+.go .ico{display:inline-block;animation:wob .5s 2}
+footer{position:fixed;left:0;right:0;bottom:0;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none}
+#sk{pointer-events:auto;width:100%;max-width:460px;padding:17px;border-radius:20px;background:linear-gradient(135deg,#0a84ff,#5e5ce6);color:#fff;font-size:20px;font-weight:700;box-shadow:0 8px 24px rgba(10,108,255,.4)}
+#sk:active{transform:scale(.98)}
+dialog{border:0;border-radius:22px;background:var(--bg);color:var(--t);width:min(520px,92vw);max-height:84vh;padding:18px}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h2{margin:6px 0 10px}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 14px);transform:translateX(-50%);background:var(--t);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:15px;z-index:9;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1}
+body[data-v=p] #r,body[data-v=r] #p{display:none}
+@media(min-width:900px){main{grid-template-columns:minmax(340px,420px) 1fr;align-items:start}.tabs{display:none}body[data-v] #r,body[data-v] #p{display:block}}
+@media(prefers-reduced-motion:reduce){.an,.go .ico{animation:none}}
+</style>
+</head>
+<body data-v="p">
+<header><h1>Team Shake</h1><button class="pill" id="bl">Listen</button></header>
+<nav class="tabs"><button data-v="p" class="on">Spieler</button><button data-v="r">Teams</button></nav>
+<main>
+<section id="p">
+  <div class="card">
+    <div class="row"><textarea id="ni" placeholder="Name eingeben (mehrere mit Komma)" enterkeyhint="done" autocomplete="off" autocapitalize="words" aria-label="Spielername"></textarea><button class="add" id="ad" aria-label="Hinzufügen">+</button></div>
+  </div>
+  <div class="card">
+    <div class="row"><select id="md" aria-label="Modus"><option value="t">Anzahl Teams</option><option value="p">Spieler pro Team</option></select>
+      <div class="step"><button id="km" aria-label="Weniger">−</button><b id="kv"></b><button id="kp" aria-label="Mehr">+</button></div></div>
+    <p class="hint" id="ti" style="margin:8px 0 0"></p>
+    <label class="row" style="margin-top:12px"><span>Nach Stärke ausgleichen</span><input type="checkbox" id="bal" style="width:24px;height:24px"></label>
+  </div>
+  <div class="card">
+    <div class="row" style="margin-bottom:4px"><span class="hint" id="cnt"></span><span><button class="pill" id="all" style="padding:5px 12px;font-size:14px">Alle an/aus</button> <button class="pill" id="clr" style="padding:5px 12px;font-size:14px;color:#e5484d">Leeren</button></span></div>
+    <div id="pl"></div>
+  </div>
+</section>
+<section id="r">
+  <div class="row" style="margin:4px 0 12px"><h2>Teams</h2><button class="pill" id="sh">Teilen</button></div>
+  <div id="rs" class="tg"></div>
+</section>
+</main>
+<footer><button id="sk"><span class="ico">🎲</span> Teams schütteln</button></footer>
+<dialog id="dg">
+  <div class="row"><h2>Listen &amp; Verlauf</h2><button class="pill" id="dc">Fertig</button></div>
+  <div class="card"><div class="row"><input id="ln" placeholder="Name der Liste" style="flex:1;border:1px solid var(--l);border-radius:12px;padding:10px;background:var(--bg)"><button class="pill" id="ls">Speichern</button></div></div>
+  <div class="card" id="lc"></div>
+  <h2 style="font-size:17px">Verlauf</h2>
+  <div class="card" id="hc"></div>
+</dialog>
+<div class="toast" id="to" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),
+esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
+K='teamshake1',uid=()=>Math.random().toString(36).slice(2,9),
+COL=['#0a6cff','#e5484d','#2fa35b','#e07b00','#8e5bd8','#0e9fb8','#d6336c','#5f6b7a'];
+let S={players:[],k:2,m:'t',bal:false,lists:{},hist:[],res:null,tn:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem(K)||'{}'))}catch(_){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(_){}},
+act=()=>S.players.filter(p=>p.on),
+nt=()=>{const n=act().length;return Math.max(1,Math.min(S.m=='t'?S.k:Math.ceil(n/S.k),n||1))};
+let tt;function toast(m){const t=$('#to');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+function view(v){document.body.dataset.v=v;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==v))}
+
+function rp(){
+  $('#pl').innerHTML=S.players.map(p=>`<div class="pr${p.on?'':' off'}" data-id="${p.id}"><button class="ck" aria-label="Aktiv">${p.on?'✓':''}</button><span class="nm">${esc(p.n)}</span>${S.bal?`<span class="st">${[1,2,3,4,5].map(i=>`<button data-s="${i}" class="${i<=p.s?'f':''}" aria-label="${i} Sterne">★</button>`).join('')}</span>`:''}<button class="x" aria-label="Löschen">×</button></div>`).join('')||'<p class="empty">Noch keine Spieler. Gib oben Namen ein.</p>';
+  const a=act().length;
+  $('#cnt').textContent=a+' von '+S.players.length+' dabei';
+  $('#kv').textContent=S.k;$('#md').value=S.m;$('#bal').checked=S.bal;
+  $('#ti').textContent=a>1?'Ergibt '+nt()+' Teams'+(S.bal?' · Tippe auf die Sterne, um die Stärke zu setzen':''):'Mindestens 2 aktive Spieler nötig';
+}
+function rr(an){
+  const r=S.res;
+  if(!r){$('#rs').innerHTML='<p class="empty" style="grid-column:1/-1">Noch keine Teams. Schüttle dein iPad oder tippe auf „Teams schütteln“.</p>';return}
+  $('#rs').innerHTML=r.t.map((t,i)=>{const av=r.b&&t.length?' · Ø '+(t.reduce((a,p)=>a+p.s,0)/t.length).toFixed(1)+'★':'';
+    return `<article class="tm${an?' an':''}" style="--c2:${COL[i%8]};animation-delay:${i*70}ms"><h3 data-i="${i}">${esc(S.tn[i]||'Team '+(i+1))}<small>${t.length}${av}</small></h3><ul>${t.map(p=>`<li>${esc(p.n)}</li>`).join('')}</ul></article>`}).join('');
+}
+function mk(){
+  const a=act();
+  if(a.length<2)return toast('Mindestens 2 aktive Spieler nötig');
+  const n=nt(),T=Array.from({length:n},()=>[]),sh=a.slice();
+  for(let i=sh.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[sh[i],sh[j]]=[sh[j],sh[i]]}
+  if(S.bal){
+    sh.sort((x,y)=>y.s-x.s);
+    const sum=T.map(()=>0);
+    sh.forEach(p=>{
+      const mn=Math.min(...T.map(t=>t.length)),c=T.map((_,i)=>i).filter(i=>T[i].length==mn),lo=Math.min(...c.map(i=>sum[i])),cc=c.filter(i=>sum[i]==lo),i=cc[Math.floor(Math.random()*cc.length)];
+      T[i].push(p);sum[i]+=p.s});
+  }else sh.forEach((p,i)=>T[i%n].push(p));
+  S.res={t:T.map(t=>t.map(p=>({n:p.n,s:p.s}))),b:S.bal,d:Date.now()};
+  S.hist.unshift(S.res);S.hist=S.hist.slice(0,10);save();
+  const b=$('#sk');b.classList.remove('go');void b.offsetWidth;b.classList.add('go');
+  view('r');rr(true);navigator.vibrate&&navigator.vibrate(60);
+}
+function add(){
+  $('#ni').value.split(/[\n,;]+/).map(s=>s.trim()).filter(Boolean).forEach(n=>S.players.push({id:uid(),n,s:3,on:true}));
+  $('#ni').value='';save();rp();
+}
+$('#ad').onclick=add;
+$('#ni').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey){e.preventDefault();add()}};
+$('#pl').onclick=ev=>{
+  const r=ev.target.closest('.pr');if(!r)return;
+  const p=S.players.find(x=>x.id==r.dataset.id),b=ev.target.closest('button');
+  if(b&&b.dataset.s)p.s=+b.dataset.s;
+  else if(b&&b.classList.contains('x'))S.players=S.players.filter(x=>x!==p);
+  else if(b&&b.classList.contains('ck'))p.on=!p.on;
+  else if(ev.target.classList.contains('nm')){const n=prompt('Name ändern',p.n);if(n&&n.trim())p.n=n.trim()}
+  else return;
+  save();rp();
+};
+$('#km').onclick=()=>{S.k=Math.max(S.m=='t'?2:1,S.k-1);save();rp()};
+$('#kp').onclick=()=>{S.k=Math.min(20,S.k+1);save();rp()};
+$('#md').onchange=e=>{S.m=e.target.value;S.k=Math.max(S.k,S.m=='t'?2:1);save();rp()};
+$('#bal').onchange=e=>{S.bal=e.target.checked;save();rp()};
+$('#all').onclick=()=>{const on=act().length<S.players.length;S.players.forEach(p=>p.on=on);save();rp()};
+$('#clr').onclick=()=>{if(S.players.length&&confirm('Alle Spieler entfernen?')){S.players=[];save();rp()}};
+$('#sk').onclick=mk;
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>view(b.dataset.v));
+$('#rs').onclick=ev=>{const h=ev.target.closest('h3');if(!h)return;const i=h.dataset.i,n=prompt('Teamname',S.tn[i]||'Team '+(+i+1));if(n!==null){if(n.trim())S.tn[i]=n.trim();else delete S.tn[i];save();rr()}};
+$('#sh').onclick=async()=>{
+  if(!S.res)return toast('Erst Teams erstellen');
+  const tx=S.res.t.map((t,i)=>(S.tn[i]||'Team '+(i+1))+': '+t.map(p=>p.n).join(', ')).join('\n');
+  try{if(navigator.share)await navigator.share({text:tx});else{await navigator.clipboard.writeText(tx);toast('In die Zwischenablage kopiert')}}catch(_){}
+};
+
+/* Listen & Verlauf */
+function rl(){
+  const ks=Object.keys(S.lists);
+  $('#lc').innerHTML=ks.map((k,i)=>`<div class="pr" data-l="${i}"><span class="nm">${esc(k)} <span class="hint">(${S.lists[k].length})</span></span><button class="pill ld" style="padding:5px 12px">Laden</button><button class="x">×</button></div>`).join('')||'<p class="empty" style="padding:8px">Noch keine gespeicherten Listen.</p>';
+  $('#hc').innerHTML=S.hist.map((h,i)=>`<div class="pr" data-h="${i}"><span class="nm">${new Date(h.d).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} · ${h.t.length} Teams</span><button class="pill ld" style="padding:5px 12px">Anzeigen</button></div>`).join('')||'<p class="empty" style="padding:8px">Noch kein Verlauf.</p>';
+}
+$('#bl').onclick=()=>{rl();$('#dg').showModal()};
+$('#dc').onclick=()=>$('#dg').close();
+$('#ls').onclick=()=>{
+  const n=$('#ln').value.trim();
+  if(!n||!S.players.length)return toast('Name und Spieler nötig');
+  S.lists[n]=S.players.map(p=>({n:p.n,s:p.s}));$('#ln').value='';save();rl();toast('Gespeichert');
+};
+$('#lc').onclick=ev=>{
+  const r=ev.target.closest('.pr'),b=ev.target.closest('button');if(!r||!b)return;
+  const k=Object.keys(S.lists)[r.dataset.l];
+  if(b.classList.contains('x')){if(confirm('„'+k+'“ löschen?')){delete S.lists[k];save();rl()}}
+  else{S.players=S.lists[k].map(p=>({id:uid(),n:p.n,s:p.s,on:true}));save();rp();$('#dg').close();view('p');toast('„'+k+'“ geladen')}
+};
+$('#hc').onclick=ev=>{const r=ev.target.closest('.pr');if(!r||!ev.target.closest('button'))return;S.res=S.hist[r.dataset.h];save();$('#dg').close();view('r');rr(true)};
+
+/* Schütteln (DeviceMotion; iOS fragt einmal nach Erlaubnis) */
+let lx,ly,lz,lt=0,mon=false;
+function mo(ev){
+  const a=ev.accelerationIncludingGravity;if(!a)return;
+  if(lx!=null){const d=Math.abs(a.x-lx)+Math.abs(a.y-ly)+Math.abs(a.z-lz),n=Date.now();
+    if(d>32&&n-lt>1500&&!$('#dg').open&&document.activeElement!==$('#ni')){lt=n;mk()}}
+  lx=a.x;ly=a.y;lz=a.z;
+}
+async function en(){
+  if(mon||!window.DeviceMotionEvent)return;
+  try{const D=DeviceMotionEvent;if(D.requestPermission&&await D.requestPermission()!='granted')return toast('Bewegung nicht erlaubt – nutze den Button');
+    addEventListener('devicemotion',mo);mon=true}catch(_){}
+}
+document.addEventListener('click',en,{once:true});
+
+/* Icon + Manifest zur Laufzeit erzeugen (Single File) */
+(()=>{
+  const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,512,512);
+  g.addColorStop(0,'#0a84ff');g.addColorStop(1,'#5e5ce6');x.fillStyle=g;x.fillRect(0,0,512,512);
+  x.fillStyle='#fff';x.font='bold 240px ui-rounded,system-ui,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('TS',256,280);
+  const u=c.toDataURL('image/png');$('#ic').href=u;
+  $('#mf').href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify({name:'Team Shake',short_name:'Team Shake',display:'standalone',background_color:'#0b0c10',theme_color:'#0a84ff',icons:[{src:u,sizes:'512x512',type:'image/png'}]}));
+})();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+rp();rr();
+</script>
+</body>
+</html>
